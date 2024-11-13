@@ -26,7 +26,7 @@ export default function OrderDataTable() {
                 name: application.name,
                 email: application.email,
                 phone: application.phone,
-                cvFile: application.cvFile,
+                cvFile: application.cvUrl,
                 status: application.status,
             })));
             setError(null);
