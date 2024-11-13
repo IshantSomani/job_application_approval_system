@@ -58,7 +58,7 @@ export default function OrderDataTable() {
         { field: 'phone', headerName: 'Phone', width: 120 },
         { field: 'cvFile', headerName: 'CV File', width: 150, renderCell: (params) => (
             <div>
-                <a href={params.value} target="_blank" rel="noopener noreferrer">Link</a>
+                <a href={params.value} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Link</a>
             </div>
         ) },
         {
