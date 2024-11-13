@@ -56,7 +56,11 @@ export default function OrderDataTable() {
         { field: 'name', headerName: 'Name', width: 150 },
         { field: 'email', headerName: 'Email', width: 200 },
         { field: 'phone', headerName: 'Phone', width: 120 },
-        { field: 'cvFile', headerName: 'CV File', width: 150 },
+        { field: 'cvFile', headerName: 'CV File', width: 150, renderCell: (params) => (
+            <div>
+                <a href={params.value} target="_blank" rel="noopener noreferrer">Link</a>
+            </div>
+        ) },
         {
             field: 'status', headerName: 'Status', width: 350, renderCell: (params) => (
                 <div className="flex gap-2">
