@@ -48,11 +48,16 @@ To run this project, create a `.env` file and add the following environment vari
 MONGODB_URI=your_mongodb_connection_string
 PORT=port_number
 JWT_SECRET=your_jwt_secret_key
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 ### Frontend
 ```env
 VITE_API_URI=your_backend_api_url
+VITE_UPLOAD_PRESENT=your_upload_present
+VITE_CLOUDINARY_URI=your_cloudinary_url
 ```
 
 ---
@@ -74,6 +79,7 @@ VITE_API_URI=your_backend_api_url
   - Multer (for handling file uploads)
   - Bcrypt.js (for password hashing)
   - JSON Web Tokens (JWT) for authentication
+  - Cloudinary for file storage
 
 - **Database:**
   - MongoDB
@@ -84,7 +90,7 @@ VITE_API_URI=your_backend_api_url
 
 ### Backend
 ```bash
-npm install express mongoose cors dotenv bcrypt jsonwebtoken multer
+npm install express mongoose cors dotenv bcrypt jsonwebtoken multer cloudinary
 ```
 - `express`: Web framework for Node.js
 - `mongoose`: MongoDB ODM
@@ -93,6 +99,7 @@ npm install express mongoose cors dotenv bcrypt jsonwebtoken multer
 - `bcrypt`: Password hashing library
 - `jsonwebtoken`: For creating and verifying JWTs
 - `multer`: Middleware for handling file uploads
+- `cloudinary`: For uploading files to Cloudinary.
 
 ### Frontend
 ```bash
