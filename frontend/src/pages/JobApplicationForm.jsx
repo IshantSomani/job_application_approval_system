@@ -31,11 +31,11 @@ const JobApplicationForm = () => {
     const uploadOnCloudinary = async () => {
         const data = new FormData();
         data.append('file', formData.cvFile);
-        data.append('upload_preset', 'jiyqy2hl');
+        data.append('upload_preset', `${import.meta.env.VITE_UPLOAD_PRESENT}`);
         data.append('resource_type', 'raw'); // Specify resource type for PDFs
 
         try {
-            const response = await axios.post(`https://api.cloudinary.com/v1_1/ishantsomani/image/upload`, data, {
+            const response = await axios.post(`${import.meta.env.VITE_CLOUDINARY_URI}`, data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
