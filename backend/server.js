@@ -2,8 +2,8 @@ const express = require('express');
 const connectDb = require("./config/db");
 const cors = require('cors');
 const path = require("path");
-const userRoutes = require("./routes/JobApplication");
-const applicationsRoutes = require("./routes/user"); 
+const applicationsRoutes = require("./routes/JobApplication");
+const userRoutes = require("./routes/user");
 
 require('dotenv').config();
 
@@ -18,13 +18,15 @@ connectDb();
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+app.use("/", userRoutes);
+app.use("/", applicationsRoutes);
+
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
 
-app.use("/", userRoutes);
-app.use("/", applicationsRoutes);
-
 app.listen(port, "0.0.0.0", () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+// http://localhost:3000/applications
