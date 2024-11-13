@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/getapplications', getApplications);
 router.get('/getUserApplications/:email', getUserApplications);
-router.post('/applications', upload.single('cvFile'), addApplications);
+router.post('/applications', upload.single('cvUrl'), addApplications);
 router.put('/applications/:id', updateApplications);
 
 module.exports = router;

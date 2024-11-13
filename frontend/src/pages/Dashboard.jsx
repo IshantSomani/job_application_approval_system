@@ -69,8 +69,8 @@ const Dashboard = () => {
                     <p className="text-gray-700"><strong>Phone:</strong> {application.phone}</p>
                     <p className="text-gray-700">
                       <strong>Uploaded File:</strong>{' '}
-                      <a href="#" className="text-blue-500 hover:underline">
-                        {application.cvFile}
+                      <a href={application.cvUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                        Link
                       </a>
                     </p>
                     <p className="text-gray-700 mt-2">

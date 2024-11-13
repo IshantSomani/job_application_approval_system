@@ -15,7 +15,7 @@ const JobApplicationSchema = new mongoose.Schema({
         trim: true,
         // match: [/^\d{10}$/, 'Please fill a valid phone number'] 
     },
-    cvFile: { type: String, required: true },
+    cvUrl: { type: String, required: true },
     status: { type: String, default: 'pending' },
 });
 

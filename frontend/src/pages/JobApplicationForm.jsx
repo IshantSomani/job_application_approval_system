@@ -8,7 +8,7 @@ const JobApplicationForm = () => {
         name: '',
         email: '',
         phone: '',
-        cvFile: null,
+        cvFile: '',
     });
     const [fileName, setFileName] = useState('No file chosen');
     const [submitted, setSubmitted] = useState(false);
@@ -28,19 +28,41 @@ const JobApplicationForm = () => {
         }
     }, []);
 
-    const handleFileChange = (e) => {
+    const uploadOnCloudinary = async () => {
+        const data = new FormData();
+        data.append('file', formData.cvFile);
+        data.append('upload_preset', 'jiyqy2hl');
+        data.append('resource_type', 'raw'); // Specify resource type for PDFs
+
+        try {
+            const response = await axios.post(`https://api.cloudinary.com/v1_1/ishantsomani/image/upload`, data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            console.log("uploadOnCloudinary: ", response);
+            return response.data.secure_url;
+        } catch (error) {
+            console.error("Error uploading to Cloudinary:", error);
+            setError('Failed to upload CV file. Please try again.');
+            return null;
+        }
+    }
+
+    const handleFileChange = async (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
-            setFileName(selectedFile.name); 
+            setFileName(selectedFile.name);
             setFormData(prevState => ({
                 ...prevState,
-                cvFile: selectedFile 
+                cvFile: selectedFile
             }));
         } else {
             setFileName('No file chosen');
             setFormData(prevState => ({
                 ...prevState,
-                cvFile: null 
+                cvFile: null
             }));
         }
     };
@@ -52,28 +74,32 @@ const JobApplicationForm = () => {
             [name]: value,
         });
     };
-    console.log("cvFile", fileName);
 
-  
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const applicationData = new FormData();
-
-        applicationData.append('name', formData.name);
-        applicationData.append('email', formData.email);
-        applicationData.append('phone', formData.phone);
-
-        if (formData.cvFile) {
-            applicationData.append('cvFile', formData.cvFile);
-        } else {
+        if (!formData.cvFile) {
             console.error("No CV file selected.");
             setError("Please upload a CV file.");
             return;
         }
+    
+        const cvUrl = await uploadOnCloudinary(); 
 
+        console.log("cvUrl: ", cvUrl)
+        if (!cvUrl) {
+            return;
+        }
+    
+        const applicationData = new FormData();
+    
+        applicationData.append('name', formData.name);
+        applicationData.append('email', formData.email);
+        applicationData.append('phone', formData.phone);
+        applicationData.append('cvUrl', cvUrl); 
+    
         console.log("applicationData:", applicationData);
-
+    
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URI}/applications`, applicationData, {
                 headers: {
@@ -154,6 +180,11 @@ const JobApplicationForm = () => {
                         Submit Application
                     </button>
                 </form>
+                
+                {error && (
+                    <div className="mt-4 text-red-600">{error}</div>
+                )}
+                
             </div>
         </section>
     );

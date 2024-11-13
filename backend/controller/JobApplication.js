@@ -28,32 +28,36 @@ exports.getUserApplications = async (req, res) => {
 };
 exports.addApplications = async (req, res) => {
     try {
-        const cvFile = req.file.path;
+        console.log("req.file: ", req.file); // Log the incoming request body
+        console.log("req.body: ", req.body); // Log the incoming request body
+
+        // const cvFile = req.body.cvFile
+        const cvFile = req.body.cvUrl;
         const name = req.body.name;
         const email = req.body.email;
         const phone = req.body.phone;
 
         if (!cvFile) {
-            return res.status(500).json({ error: 'Failed to process application. File is require.' })
+            return res.status(400).json({ error: 'Failed to process application. File is required.' });
         }
 
-        const upload = await uploadOnCloudinary(cvFile);
-        console.log("upload:", upload);
+        // // Convert the buffer to a format suitable for Cloudinary
+        // const upload = await uploadOnCloudinary(cvFile.buffer); // Use cvFile.buffer for uploading
+        // console.log("upload:", upload);
 
         // Check if the upload was successful
-        if (!upload || !upload.url) {
-            return res.status(500).json({ error: 'Failed to process application. Please upload a valid file.' });
-        }
-
+        // if (!upload || !upload.secure_url) {
+        //     return res.status(500).json({ error: 'Failed to process application. Please upload a valid file.' });
+        // }
 
         const jobApplication = new JobApplication({
             name,
             email: email.toLowerCase(),
             phone,
-            cvFile: upload.url,
+            cvUrl: cvFile,
             status: 'pending'
         });
-
+        console.log("jobApplication",jobApplication)
         await jobApplication.save();
 
         const userCheck = await JobApplication.findById(jobApplication._id);
